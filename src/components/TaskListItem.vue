@@ -1,14 +1,15 @@
 <template>
   <li>
     <span v-bind:class="{done: task.completed}">
-<!--      <input type="checkbox" v-on:change="task.completed = true">-->
+      <input type="checkbox"
+             v-on:change="task.switchCompleteTask()">
       <strong>{{task.id}}</strong>
       {{task.text}}
     </span>
     <button>&times;</button>
   </li>
 </template>
-<!-- x = &times; -->
+<!-- x === &times; -->
 
 <script>
 export default {

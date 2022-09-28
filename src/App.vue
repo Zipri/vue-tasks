@@ -9,15 +9,25 @@
 <script>
 import TaskList from "@/components/TaskList";
 
+const createTask = (id, text) => {
+  return {
+    id: id, text: text, completed: false,
+    switchCompleteTask: function () {
+      this.completed = !this.completed
+    }
+  }
+}
+
 export default {
   name: 'App',
   data() {
     return {
       tasks: [
-        {id: 1, text: "The quick brown fox jumps over the lazy dog", completed: false},
-        {id: 2, text: "Съешь ещё этих мягких французских булок да выпей чаю", completed: false},
-        {id: 3, text: "Høj bly gom vandt fræk sexquiz på wc", completed: true},
-        {id: 4, text: "В чащах юга жил бы цитрус? Да, но фальшивый экземпляр!", completed: false},
+        createTask(1, "The quick brown fox jumps over the lazy dog"),
+        createTask(2, "Съешь ещё этих мягких французских булок да выпей чаю"),
+        createTask(3, "Høj bly gom vandt fræk sexquiz på wc"),
+        createTask(4, "В чащах юга жил бы цитрус? Да, но фальшивый экземпляр!"),
+        createTask(5, "Ехал Грека через реку... а лучше бы не ехал..."),
       ]
     }
   },
@@ -35,6 +45,7 @@ export default {
   flex-direction: column;
   align-items: center;
 }
+
 * {
   transition: .7s; /* Время эффекта */
 }
