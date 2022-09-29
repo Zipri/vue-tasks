@@ -1,7 +1,7 @@
 <template>
   <div>
     <form @submit.prevent="onSubmit">
-      <input type="text" v-model="title">
+      <input type="text" v-model="title" placeholder="Add new task">
       <button type="submit">+</button>
     </form>
     <button @click="deleteAll">&times;</button>

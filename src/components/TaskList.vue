@@ -24,7 +24,7 @@ export default {
 
 <style scoped>
 div {
-  padding: 0 3rem;
+  padding: 0 1rem;
 }
 ul {
   list-style: none;
