@@ -1,12 +1,9 @@
 <template>
-  <li>
+  <li @click="task.switchCompleteTask()">
     <span v-bind:class="{done: task.completed}">
-      <input type="checkbox"
-             v-on:change="task.switchCompleteTask()">
-      <strong>{{task.id}}</strong>
       {{task.text}}
     </span>
-    <button>&times;</button>
+    <button v-on:click="$emit('remove-task', task.id)">&times;</button>
   </li>
 </template>
 <!-- x === &times; -->
@@ -24,29 +21,31 @@ export default {
 
 <style scoped>
 li {
-  border: .01rem dotted #2b2b2b;
+  border: .01rem dotted #95999a;
+  border-radius: 1rem;
   display: flex;
   justify-content: space-between;
   padding: .5rem 2rem;
   margin-bottom: 1rem;
+  text-align: justify;
+  cursor: pointer;
+}
+li:hover {
+  border: .01rem solid rebeccapurple;
 }
 li button {
   margin-left: 2rem;
   background-color: white;
   border:  .01rem solid red;
-  border-radius: 33%;
+  border-radius: .5rem;
   cursor: pointer;
 }
 li button:hover {
   background-color: red;
   color: white;
 }
-
-li input {
-  margin-right: 1rem;
-}
-
 .done {
   text-decoration: line-through;
+  color: silver;
 }
 </style>
