@@ -1,12 +1,20 @@
 <template>
   <div id="app">
-    <h1>VUE tasks</h1>
+    <div class="label">
+      <h1>VUE</h1>
+      <select v-model="filter">
+        <option value="all">All</option>
+        <option value="completed">Completed</option>
+        <option value="not-completed">Not completed</option>
+      </select>
+      <h1>tasks</h1>
+    </div>
     <hr style="width: 100%"/>
     <Form_AddTask @add-task="addTask"
                   @delete-all-tasks="deleteAllTasks"/>
     <MyLoader v-if="loading"/>
-    <TaskList v-else-if="tasks.length"
-              v-bind:tasks="tasks"
+    <TaskList v-else-if="filteredTasks.length"
+              v-bind:tasks="filteredTasks"
               @remove-task="removeTask"/>
     <p v-else>- No tasks yet -</p>
   </div>
@@ -39,18 +47,17 @@ export default {
         createTask(335, "Ехал Грека через реку... а лучше бы не ехал..."),
         createTask(336, "Эта пустыня, апофеоз всех пустынь, растянулась до самого неба, в необозримую бесконечность по всем направлениям — белая, слепящая, обезвоженная и совершенно безликая. Только мутное марево горной гряды призрачно вырисовывалось на горизонте, и еще изредка попадались сухие пучки бес-травы, что приносит и сладкие сны, и кошмары, и смерть. Редкий надгробный камень служил указателем на пути. Узенькая тропа, пробивающая толстую корку солончаков, — вот все, что осталось от старой столбовой дороги, где когда-то ходили фургончики и повозки. С тех пор мир сдвинулся с места. Мир опустел."),
       ],
-      loading: true
+      loading: true,
+      filter: 'all'
     }
   },
   mounted() {
     fetch('https://jsonplaceholder.typicode.com/todos')
         .then(response => response.json())
-        .then(json => setTimeout(() => {
-          {
-            json.map(i => this.tasks.push(createTask(i.id, i.title)))
-            this.loading = false
-          }
-        }, 1000))
+        .then(json => {
+          json.map(i => this.tasks.push(createTask(i.id, i.title)))
+          this.loading = false
+        })
   },
   methods: {
     removeTask(id) {
@@ -61,6 +68,16 @@ export default {
     },
     deleteAllTasks() {
       this.tasks = []
+    }
+  },
+  computed: {
+    filteredTasks() {
+      if (this.filter === 'completed') {
+        return this.tasks.filter(t => t.completed)
+      } else if (this.filter === 'not-completed') {
+        return this.tasks.filter(t => !t.completed)
+      }
+      return this.tasks
     }
   },
   components: {MyLoader, Form_AddTask, TaskList}
@@ -80,5 +97,31 @@ export default {
 
 * {
   transition: .7s; /* Время эффекта */
+}
+
+.label {
+  display: flex;
+}
+
+.label h1 {
+  margin: 0 .5rem;
+}
+
+.label select {
+  text-align: center;
+  outline: none;
+  padding: .2rem;
+  border-radius: 1rem;
+  font-size: 1.25rem;
+  cursor: pointer;
+  border: .1rem solid rebeccapurple;
+  color: rebeccapurple;
+  transition: .2s;
+}
+
+.label select:hover {
+  border: .1rem solid rebeccapurple;
+  background-color: rebeccapurple;
+  color: white;
 }
 </style>
